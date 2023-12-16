@@ -1,8 +1,12 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Open_Sans } from 'next/font/google'
+import { ClerkProvider } from '@clerk/nextjs'
 import './globals.css'
+import { ThemeProvider } from "@/components/theme-provider"
+import { cn } from '@/lib/utils'
 
-const inter = Inter({ subsets: ['latin'] })
+
+const font = Open_Sans({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Discord',
@@ -15,8 +19,22 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+    <ClerkProvider>
+      {/* TODO: } Clerk User Button does not have high contrast ratio with the background */}
+      <html lang="en" suppressHydrationWarning>
+        <body className={cn(font.className, "bg-white dark:bg-slate-700")}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem={false}
+            // forcedTheme='dark'
+            storageKey='theme'
+
+          >
+            {children}
+          </ThemeProvider>
+        </body>
+      </html>
+    </ClerkProvider >
   )
 }
