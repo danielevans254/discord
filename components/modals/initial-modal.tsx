@@ -25,6 +25,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react";
+import FileUpload from "../file-upload";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -74,48 +75,61 @@ const InitialModal = () => {
     <Dialog open>
       <DialogContent className="bg-white text-black p-0 overflow-hidden rounded-lg shadow-xl max-w-3xl w-full">
         <DialogHeader className="flex items-center justify-between p-4">
-          <DialogTitle className="text-3xl font-semibold">Customize Server</DialogTitle>
+          <DialogTitle className="text-3xl font-bold py-2">Customize your server</DialogTitle>
+          <Dialog>Step 1 of 2</Dialog>
           <DialogClose className="text-gray-400 hover:text-gray-500" />
         </DialogHeader>
         <Form {...form}>
           <div className="flex flex-col p-4 space-y-4">
             <FormItem>
-              <FormLabel className="font-semibold">Server Name</FormLabel>
-              <Input
-                disabled={isLoading}
-                type="text"
-                placeholder="Enter a server name"
-                className="bg-zinc-300/50 border-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:ring-blue-500 focus-visible:ring-offset-gray-900"
-                {...form.register("name")}
-              />
-              <FormMessage>{form.formState.errors.name?.message}</FormMessage>
+              <FormLabel className="font-semibold uppercase">Server Name</FormLabel>
+              <FormControl>
+                <Input
+                  disabled={isLoading}
+                  type="text"
+                  placeholder="Enter a server name"
+                  className="bg-zinc-300/50 border-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:ring-blue-500 focus-visible:ring-offset-gray-900"
+                  {...form.register("name")}
+                />
+              </FormControl>
+              <FormMessage className="text-red-600 font-semibold">{form.formState.errors.name?.message}</FormMessage>
             </FormItem>
             <FormItem>
-              <FormLabel className="font-semibold">Server Description</FormLabel>
-              <Input
-                disabled={isLoading}
-                type="text"
-                placeholder="Enter a server description"
-                className="bg-zinc-300/50 border-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:ring-blue-500 focus-visible:ring-offset-gray-900"
-                {...form.register("description")}
-              />
-              <FormMessage>{form.formState.errors.description?.message}</FormMessage>
+              <FormLabel className="font-semibold uppercase">Server Description</FormLabel>
+              <FormControl>
+                <Input
+                  disabled={isLoading}
+                  type="text"
+                  placeholder="Enter a server description"
+                  className="bg-zinc-300/50 border-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:ring-blue-500 focus-visible:ring-offset-gray-900"
+                  {...form.register("description")}
+                />
+              </FormControl>
+              <FormMessage className="text-red-600 font-semibold">{form.formState.errors.description?.message}</FormMessage>
             </FormItem>
-            <FormItem>
-              <FormLabel>Server Image</FormLabel>
-              {/* TODO: Change this to file upload */}
-              <Input
-                type="text"
-                placeholder="Enter a server image url"
-                {...form.register("imageUrl")}
-              />
-              <FormMessage>{form.formState.errors.imageUrl?.message}</FormMessage>
-            </FormItem>
+            <FormField
+              control={form.control}
+              name="imageUrl"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="uppercase font-semibold">Server Image</FormLabel>
+                  {/* TODO: Change this to file upload */}
+                  <FormControl>
+                    <FileUpload
+                      endpoint="serverImage"
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage className="text-red-600 font-semibold">{form.formState.errors.imageUrl?.message}</FormMessage>
+                </FormItem>
+              )}
+            />
           </div>
           <DialogFooter className="flex items-center justify-end p-4">
             <Button
               type="submit"
-              className="bg-emerald-600/90 hover:bg-emerald-800/90 hover:text-white text-gray-900 text-sm font-semibold"
+              className="bg-indigo-600 hover:bg-indigo-900 hover:text-white text-white text-sm font-semibold"
               disabled={isLoading}
               onClick={form.handleSubmit(onSubmit)}
             >
@@ -123,11 +137,8 @@ const InitialModal = () => {
             </Button>
           </DialogFooter>
         </Form>
-        {/* TODO: Below can be the preview */}
 
-        {/* <DialogFooter className="flex items-center justify-end p-4">
-          <button className="btn btn-primary">Get Started</button>
-        </DialogFooter> */}
+        {/* TODO: Below can be the preview */}
       </DialogContent>
       <Dialog />
     </Dialog>
