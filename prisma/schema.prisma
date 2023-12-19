@@ -29,6 +29,7 @@ model Profile {
 model Server {
   id String @id @default(uuid())
   name String
+  description String
   iconURL String @db.Text
   inviteCode String @db.Text
   profileId String
