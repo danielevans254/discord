@@ -24,12 +24,13 @@ const FileUpload = ({
     console.log("File Type:", fileType);
 
     return (
-      <div className="relative h-20 w-20">
+      <div className="relative h-40 w-40">
         <Image
           src={value}
           alt="Uploaded image"
-          fill
+          layout="fill"
           className="rounded-md"
+          objectFit="cover"
         />
         {/* TODO: If the user clicks on the X Button the file must also be delete from uploadthing not only on the client side */}
         {/* TODO: Try and implement this solution: https://stackoverflow.com/questions/77426379/uploadthing-deleting-files*/}
@@ -55,7 +56,8 @@ const FileUpload = ({
         onUploadError={(err: Error) => {
           console.log(err);
         }}
-
+        // TODO: Add a loading state
+        // TODO: Why is the value red?
         value={value}
       />
 
