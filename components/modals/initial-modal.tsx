@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import axios from "axios";
 import {
   Dialog,
   DialogContent,
@@ -26,6 +26,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react";
 import FileUpload from "../file-upload";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -44,6 +45,7 @@ const formSchema = z.object({
 {/* FIXME: "Hydration Error... */ }
 
 const InitialModal = () => {
+  const router = useRouter();
 
   const [isMounted, setIsMounted] = useState(false);
 
@@ -64,7 +66,17 @@ const InitialModal = () => {
 
   // TODO: Create the API endpoints for creating a server
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    try {
+      await axios.post("/api/server", values);
+      form.reset();
+      router.refresh();
+      window.location.reload();
+
+
+    } catch {
+      console.log("Error creating server")
+      console.log(values, "values")
+    }
   };
 
   if (!isMounted) {
