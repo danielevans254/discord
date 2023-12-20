@@ -4,7 +4,6 @@ import { MemberRole } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 
-// FIXME: Description
 export async function POST(req: Request) {
   try {
     const { name, description, imageUrl } = await req.json();
@@ -36,7 +35,6 @@ export async function POST(req: Request) {
             },
           ],
         },
-
       }
     });
 

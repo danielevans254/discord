@@ -49,7 +49,6 @@ enum MemberRole {
   ADMIN
   MODERATOR
   GUEST
-
 }
 
 model Member {

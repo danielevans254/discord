@@ -71,11 +71,8 @@ const InitialModal = () => {
       form.reset();
       router.refresh();
       window.location.reload();
-
-
     } catch {
       console.log("Error creating server")
-      console.log(values, "values")
     }
   };
 
@@ -84,6 +81,7 @@ const InitialModal = () => {
   }
 
   return (
+    // TODO: Remove the X button from the dialog header
     <Dialog open>
       <DialogContent className="bg-white text-black p-0 overflow-hidden rounded-lg shadow-xl max-w-3xl w-full">
         <DialogHeader className="flex items-center justify-between p-4">
@@ -149,7 +147,6 @@ const InitialModal = () => {
             </Button>
           </DialogFooter>
         </Form>
-
         {/* TODO: Below can be the preview */}
       </DialogContent>
       <Dialog />
