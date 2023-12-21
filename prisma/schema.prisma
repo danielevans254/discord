@@ -57,7 +57,6 @@ model Member {
   profileId String
   serverId String
 
-
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
   server Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
 
