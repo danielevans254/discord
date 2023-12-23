@@ -1,11 +1,16 @@
 'use client'
 import { ServerWithMembersWithProfiles } from "@/types";
 import { MemberRole } from "@prisma/client";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "../ui/dropdown-menu";
-import { ChevronDown } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import { ChevronDown, LogOut, Settings, Trash2, Tv, User, UserCog, UserPlus, Users } from "lucide-react";
 import Image from "next/image";
 import { ScrollArea } from "../ui/scroll-area";
 import { useEffect, useState } from "react";
+import { MdOutlineManageHistory, MdOutlineManageSearch } from "react-icons/md";
+import { MdPreview } from "react-icons/md";
+import { TbBan } from "react-icons/tb";
+import { PiFileMagnifyingGlassFill } from "react-icons/pi";
+import { BsEmojiSmile } from "react-icons/bs";
 
 interface ServerHeaderProps {
   server: ServerWithMembersWithProfiles,
@@ -35,28 +40,37 @@ const ServerHeader = ({
   const renderServerActions = () => (
     <div className="flex flex-col px-3 py-2 space-y-2">
       <span className="font-semibold">Server Actions</span>
-      <button className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/30 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
+      <DropdownMenuItem className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/30 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
         Server Settings
-      </button>
-      <button className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
+        <Settings className="ml-auto" size={16} />
+      </DropdownMenuItem>
+      <DropdownMenuItem className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
         Invite People
-      </button>
-      <button className="w-full text-left hover:bg-red-700/90 dark:hover:bg-red-700/80 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
+        <UserPlus className="ml-auto" size={16} />
+      </DropdownMenuItem>
+      <DropdownMenuItem className="w-full text-left hover:bg-red-700/90 dark:hover:bg-red-700/80 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
         Leave Server
-      </button>
+        <LogOut className="ml-auto" size={16} />
+      </DropdownMenuItem>
+      <DropdownMenuItem className="w-full text-left hover:bg-red-700/90 dark:hover:bg-red-700/80 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
+        Delete Server
+        <Trash2 className="ml-auto" size={16} />
+      </DropdownMenuItem>
     </div>
   );
 
   const renderServerMembers = () => (
     <div className="flex flex-col px-3 py-2 space-y-2">
       <span className="font-semibold">Server Members</span>
-      <button className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
+      <DropdownMenuItem className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
         View Members
-      </button>
+        <Users className="ml-auto" size={16} />
+      </DropdownMenuItem>
       {isModerator && (
-        <button className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
+        <DropdownMenuItem className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
           Manage Members
-        </button>
+          <UserCog className="ml-auto" size={16} />
+        </DropdownMenuItem>
       )}
     </div>
   );
@@ -64,13 +78,15 @@ const ServerHeader = ({
   const renderServerChannels = () => (
     <div className="flex flex-col px-3 py-2 space-y-2">
       <span className="font-semibold">Server Channels</span>
-      <button className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
+      <DropdownMenuItem className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
         View Channels
-      </button>
+        <Tv className="ml-auto" size={16} />
+      </DropdownMenuItem>
       {isAdmin && (
-        <button className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
+        <DropdownMenuItem className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
           Manage Channels
-        </button>
+          <MdOutlineManageHistory className="ml-auto" size={18} />
+        </DropdownMenuItem>
       )}
     </div>
   );
@@ -78,13 +94,15 @@ const ServerHeader = ({
   const renderServerRoles = () => (
     <div className="flex flex-col px-3 py-2 space-y-2">
       <span className="font-semibold">Server Roles</span>
-      <button className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
+      <DropdownMenuItem className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
         View Roles
-      </button>
+        <MdPreview className="ml-auto" size={18} />
+      </DropdownMenuItem>
       {isAdmin && (
-        <button className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
+        <DropdownMenuItem className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
           Manage Roles
-        </button>
+          <MdOutlineManageSearch className="ml-auto" size={18} />
+        </DropdownMenuItem>
       )}
     </div>
   );
@@ -92,13 +110,15 @@ const ServerHeader = ({
   const renderServerBans = () => (
     <div className="flex flex-col px-3 py-2 space-y-2">
       <span className="font-semibold">Server Bans</span>
-      <button className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
+      <DropdownMenuItem className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
         View Bans
-      </button>
+        <PiFileMagnifyingGlassFill className="ml-auto" size={18} />
+      </DropdownMenuItem>
       {isAdmin && (
-        <button className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
+        <DropdownMenuItem className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
           Manage Bans
-        </button>
+          <TbBan className="ml-auto" size={18} />
+        </DropdownMenuItem>
       )}
     </div>
   );
@@ -106,13 +126,13 @@ const ServerHeader = ({
   const renderServerIntegrations = () => (
     <div className="flex flex-col px-3 py-2 space-y-2">
       <span className="font-semibold">Server Integrations</span>
-      <button className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
+      <DropdownMenuItem className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
         View Integrations
-      </button>
+      </DropdownMenuItem>
       {isAdmin && (
-        <button className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
+        <DropdownMenuItem className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
           Manage Integrations
-        </button>
+        </DropdownMenuItem>
       )}
     </div>
   );
@@ -120,30 +140,22 @@ const ServerHeader = ({
   const renderServerEmojis = () => (
     <div className="flex flex-col px-3 py-2 space-y-2">
       <span className="font-semibold">Server Emojis</span>
-      <button className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
+      <DropdownMenuItem className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
         View Emojis
-      </button>
+        <BsEmojiSmile className="ml-auto" size={18} />
+
+      </DropdownMenuItem>
       {isModerator && (
-        <button className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
+        <DropdownMenuItem className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
           Manage Emojis
-        </button>
+          <MdOutlineManageHistory className="ml-auto" size={18} />
+        </DropdownMenuItem>
       )}
     </div>
+
   );
 
-  const renderServerStickers = () => (
-    <div className="flex flex-col px-3 py-2 space-y-2">
-      <span className="font-semibold">Server Stickers</span>
-      <button className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
-        View Stickers
-      </button>
-      {isAdmin && (
-        <button className="w-full text-left hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition rounded-md px-2 py-1 text-neutral-500 dark:text-neutral-300">
-          Manage Stickers
-        </button>
-      )}
-    </div>
-  );
+
 
   return (
     <DropdownMenu>
@@ -157,13 +169,13 @@ const ServerHeader = ({
       <DropdownMenuContent className="">
         <ScrollArea className="h-72 w-48 rounded-md">
           <div className="flex items-center px-3 py-2 space-x-2">
-            <div className="flex-shrink-0 w-8 h-8 rounded-full overflow-hidden border-2 ">
+            <div className="flex-shrink-0 w-12 h-12 rounded-full overflow-hidden border-2 ">
               <Image src={server.imageUrl} alt="Server Image" className="flex flex-col items-center" width={48} height={48} />
             </div>
-            <div className="flex flex-col">
-              <span className="text-neutral-500 dark:text-neutral-300">{server.members.length} Members</span>
-              <span className="text-neutral-500 dark:text-neutral-300">{adminCount} Admins</span>
-              <span className="text-neutral-500 dark:text-neutral-300">{moderatorCount} Moderators</span>
+            <div className="flex flex-col justify-end">
+              <span className="text-sm text-neutral-500 dark:text-neutral-300">{server.members.length} Members</span>
+              <span className="text-sm text-neutral-500 dark:text-neutral-300">{adminCount} Admins</span>
+              <span className="text-sm text-neutral-500 dark:text-neutral-300">{moderatorCount} Moderators</span>
             </div>
           </div>
           {renderServerActions()}
@@ -171,9 +183,8 @@ const ServerHeader = ({
           {renderServerChannels()}
           {renderServerRoles()}
           {renderServerBans()}
-          {renderServerIntegrations()}
+          {/* {renderServerIntegrations()} */}
           {renderServerEmojis()}
-          {renderServerStickers()}
         </ScrollArea>
       </DropdownMenuContent>
     </DropdownMenu>
