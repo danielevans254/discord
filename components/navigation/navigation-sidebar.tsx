@@ -51,13 +51,12 @@ const NavigationSidebar = async () => {
           appearance={
             {
               elements: {
-                avatarBox: "h-[48px] w-[48px]"
+                avatarBox: "h-[48px] w-[48px] border-2 border-indigo-500 rounded-[24px] hover:border-indigo-600 transition-all overflow-hidden"
               }
             }
           }
         />
       </div>
-
     </div >);
 }
 
