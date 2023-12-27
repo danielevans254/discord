@@ -2,18 +2,11 @@
 import { ServerWithMembersWithProfiles } from "@/types";
 import { MemberRole } from "@prisma/client";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
-import { Bell, CalendarDays, ChevronDown, FolderPlus, LogOut, Pencil, PlusCircle, Settings, ShieldAlert, Sticker, Trash2, Tv, User, UserCog, UserPlus, Users } from "lucide-react";
-import Image from "next/image";
-import { ScrollArea } from "../ui/scroll-area";
+import { Bell, CalendarDays, ChevronDown, FolderPlus, LogOut, Pencil, PlusCircle, Settings, ShieldAlert, Sticker, Trash2, Tv, UserPlus, Users } from "lucide-react";
 import { useEffect, useState } from "react";
-import { MdOutlineManageHistory, MdOutlineManageSearch } from "react-icons/md";
-import { MdPreview } from "react-icons/md";
-import { TbBan } from "react-icons/tb";
-import { PiFileMagnifyingGlassFill } from "react-icons/pi";
-import { BsEmojiSmile } from "react-icons/bs";
 import { Separator } from "../ui/separator";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
-
+import { ModalStore } from "@/hooks/use-modal-store";
 interface ServerHeaderProps {
   server: ServerWithMembersWithProfiles,
   role?: MemberRole,
@@ -23,11 +16,10 @@ const ServerHeader = ({
   server,
   role,
 }: ServerHeaderProps) => {
+  const { onOpen } = ModalStore();
   const isAdmin = role === MemberRole.ADMIN;
   const isModerator = isAdmin || role === MemberRole.MODERATOR;
 
-  const adminCount = server.members.filter((member) => member.role === MemberRole.ADMIN).length;
-  const moderatorCount = server.members.filter((member) => member.role === MemberRole.MODERATOR).length;
 
   const [isMounted, setIsMounted] = useState(false);
 
@@ -41,19 +33,27 @@ const ServerHeader = ({
 
   // TODO: Add functionality
 
-  const renderUserActions = () => (
+  const renderActions = () => (
     <div className="flex flex-col px-3 py-2 space-y-2">
       <DropdownMenuContent className="w-56 text-xs font-medium text-black space-y-[2px]">
-        <DropdownMenuItem className="text-indigo-600 dark:text-indigo-400 px-3 py-2 text-sm cursor-pointer">
+        <DropdownMenuItem onClick={() => { onOpen("invite", { server }) }} className="hover:border-indigo-600 text-indigo-600 dark:text-indigo-400 px-3 py-2 text-sm cursor-pointer">
           Invite People
           <UserPlus className="ml-auto" size={16} />
         </DropdownMenuItem>
-        {isModerator && (
+        {isAdmin && (
           <DropdownMenuItem className="text-gray-300 px-3 py-2 text-sm cursor-pointer">
             Server Settings
             <Settings className="ml-auto" size={16} />
           </DropdownMenuItem>
         )}
+
+        {isAdmin && (
+          <DropdownMenuItem className="text-gray-300 px-3 py-2 text-sm cursor-pointer">
+            Manage Members
+            <Users className="ml-auto" size={16} />
+          </DropdownMenuItem>
+        )}
+
         {isModerator && (
           <DropdownMenuItem className="text-gray-300 px-3 py-2 text-sm cursor-pointer">
             Create Channel
@@ -102,15 +102,22 @@ const ServerHeader = ({
           <MdCheckBoxOutlineBlank className="ml-auto" size={16} />
         </DropdownMenuItem>
         <Separator />
-        <DropdownMenuItem className="text-red-600 dark:text-red-500 px-3 py-2 text-sm cursor-pointer">
-          Leave Server
-          <LogOut className="ml-auto" size={16} />
-        </DropdownMenuItem>
+        {isAdmin && (
+          <DropdownMenuItem className="text-red-600 dark:text-red-500 px-3 py-2 text-sm cursor-pointer">
+            Delete Server
+            <Trash2 className="ml-auto" size={16} />
+          </DropdownMenuItem>
+        )}
+        {!isAdmin && (
+          <DropdownMenuItem className="text-red-600 dark:text-red-500 px-3 py-2 text-sm cursor-pointer">
+            Leave Server
+            <LogOut className="ml-auto" size={16} />
+          </DropdownMenuItem>
+        )}
+
       </DropdownMenuContent>
     </div>
   );
-
-
 
   return (
     <DropdownMenu>
@@ -120,8 +127,7 @@ const ServerHeader = ({
           <ChevronDown className="ml-auto" size={24} />
         </button>
       </DropdownMenuTrigger>
-      {renderUserActions()}
-      {/* {isAdmin && renderAdminActions()} */}
+      {renderActions()}
     </DropdownMenu>
   );
 }
