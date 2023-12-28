@@ -14,16 +14,15 @@ import {
 import { ModalStore } from "@/hooks/use-modal-store";
 import Image from "next/image";
 import { Input } from "../ui/input";
-import { Search } from "lucide-react";
+import { RefreshCcw, Search } from "lucide-react";
 import { Separator } from "../ui/separator";
 import { useOrigin } from "@/hooks/use-origin";
 import { useState } from "react";
 
-
-
+// TODO: THe invite link generated is not working
 
 const InviteModal = () => {
-  const { isOpen, onClose, type, data } = ModalStore();
+  const { onOpen, isOpen, onClose, type, data } = ModalStore();
   const isModalOpen = isOpen && type === "invite";
   const origin = useOrigin();
 
@@ -32,7 +31,18 @@ const InviteModal = () => {
   const [isCopied, setCopied] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const onNew = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.patch(`/api/server/${server?.id}/invite`);
 
+      onOpen("invite", { server: response.data });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   const inviteLink = `${origin}/invite/${server?.inviteCode}`;
 
@@ -83,7 +93,7 @@ const InviteModal = () => {
         <div className="flex px-3 py-2">
           <div className="w-full bg-[#1e1f22] rounded-sm">
             <div className="p-1 flex items-center justify-between">
-              <Input className="w-full border-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-[#1e1f22]" value={inviteLink} />
+              <Input disabled={isLoading} className="w-full border-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-[#1e1f22]" value={inviteLink} />
               <button
                 onClick={onCopy}
                 disabled={isCopied}
@@ -95,7 +105,7 @@ const InviteModal = () => {
           </div>
         </div>
         <div className="relative flex ml-[12px] pb-3 text-xs">
-          Your invite link expires in 7 days.&nbsp;<a className="text-blue-400 cursor-pointer">Edit invite link</a>
+          Your invite link expires in 7 days.&nbsp;<span className="text-blue-400">Edit invite link</span><RefreshCcw onClick={onNew} className="flex h-4 w-4 ml-2 cursor-pointer" />
         </div>
       </DialogContent>
     </Dialog >
