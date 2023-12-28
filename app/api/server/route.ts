@@ -3,9 +3,14 @@ import { db } from "@/lib/db";
 import { MemberRole } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
+import { nanoid } from 'nanoid'
 
 export async function POST(req: Request) {
+  const inviteCode = nanoid(15);
+
+
   try {
+
     const { name, description, imageUrl } = await req.json();
     const profile = await currentProfile();
     if (!profile) {
@@ -17,7 +22,7 @@ export async function POST(req: Request) {
         name,
         description,
         imageUrl,
-        inviteCode: uuidv4(),
+        inviteCode,
         channels: {
           create: [
             {
