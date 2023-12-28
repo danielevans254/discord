@@ -12,7 +12,6 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { ModalStore } from "@/hooks/use-modal-store";
-import Image from "next/image";
 import { Input } from "../ui/input";
 import { RefreshCcw, Search } from "lucide-react";
 import { Separator } from "../ui/separator";
@@ -56,6 +55,7 @@ const InviteModal = () => {
 
   // TODO: Add invite link
   const onClick = () => {
+    // TODO: Add the search friend functionality
     console.log("clicked");
   }
 
@@ -63,7 +63,7 @@ const InviteModal = () => {
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="bg-[#313338] text-gray-200 p-0 overflow-hidden rounded-lg shadow-xl max-w-xl">
         <DialogHeader className="p-4">
-          <DialogTitle className="text-2xl font-semibold py-2 flex pl-4">Invite friends to </DialogTitle>
+          <DialogTitle className="text-xl font-semibold py-2 flex pl-4">Invite friends to&nbsp;<span className="lowercase">{server?.name} </span></DialogTitle>
           <div className="px-4 flex items-center text-gray-400">
             <span className="text-2xl">#&nbsp;</span> general
           </div>
@@ -97,7 +97,7 @@ const InviteModal = () => {
               <button
                 onClick={onCopy}
                 disabled={isCopied}
-                className={`text-sm bg-indigo-500 py-2 rounded-sm ${isCopied ? 'bg-green-500 text-gray-900 px-[17.5px]' : 'px-6'} text-white `}
+                className={`text-sm bg-indigo-500 py-2 rounded-sm ${isCopied ? 'bg-green-600 text-gray-900 px-[17.5px]' : 'px-6'} text-white `}
               >
                 {isCopied ? 'Copied' : 'Copy'}
               </button>
@@ -105,7 +105,10 @@ const InviteModal = () => {
           </div>
         </div>
         <div className="relative flex ml-[12px] pb-3 text-xs">
-          Your invite link expires in 7 days.&nbsp;<span className="text-blue-400">Edit invite link</span><RefreshCcw onClick={onNew} className="flex h-4 w-4 ml-2 cursor-pointer" />
+          Your invite link expires in 7 days.&nbsp;
+          {/* TODO: Maybe create another modal to manage editing the invite link */}
+          <span className="text-blue-400">Edit invite link</span>
+          <RefreshCcw onClick={onNew} className="text-green-500 flex h-4 w-4 ml-2 cursor-pointer" />
         </div>
       </DialogContent>
     </Dialog >
