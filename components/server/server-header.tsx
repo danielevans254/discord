@@ -20,6 +20,16 @@ const ServerHeader = ({
   const isAdmin = role === MemberRole.ADMIN;
   const isModerator = isAdmin || role === MemberRole.MODERATOR;
 
+  // TODO: Add functionality for the show channel and mute channel buttons, check and uncheck based on current state
+
+  // TODO: Also obviously add the backend functionality to fetch all channels and muted channels
+  const showChannel = () => {
+    console.log("show channel clicked");
+  }
+
+  const muteChannel = () => {
+    console.log("mute channel clicked");
+  }
 
   const [isMounted, setIsMounted] = useState(false);
 
@@ -41,75 +51,80 @@ const ServerHeader = ({
           <UserPlus className="ml-auto" size={16} />
         </DropdownMenuItem>
         {isAdmin && (
-          <DropdownMenuItem className="text-gray-300 px-3 py-2 text-sm cursor-pointer">
+          <DropdownMenuItem onClick={() => { onOpen("serverSettings", { server }) }}
+            className="text-gray-300 px-3 py-2 text-sm cursor-pointer">
             Server Settings
             <Settings className="ml-auto" size={16} />
           </DropdownMenuItem>
         )}
 
         {isAdmin && (
-          <DropdownMenuItem className="text-gray-300 px-3 py-2 text-sm cursor-pointer">
+          <DropdownMenuItem onClick={() => { onOpen("manageMember", { server }) }} className="text-gray-300 px-3 py-2 text-sm cursor-pointer">
             Manage Members
             <Users className="ml-auto" size={16} />
           </DropdownMenuItem>
         )}
 
         {isModerator && (
-          <DropdownMenuItem className="text-gray-300 px-3 py-2 text-sm cursor-pointer">
+          <DropdownMenuItem onClick={() => { onOpen("createChannel", { server }) }} className="text-gray-300 px-3 py-2 text-sm cursor-pointer">
             Create Channel
             <PlusCircle className="ml-auto" size={16} />
           </DropdownMenuItem>
         )}
 
         {isModerator && (
-          <DropdownMenuItem className="text-gray-300 px-3 py-2 text-sm cursor-pointer">
+          <DropdownMenuItem onClick={() => { onOpen("createCategory", { server }) }} className="text-gray-300 px-3 py-2 text-sm cursor-pointer">
             Create Category
             <FolderPlus className="ml-auto" size={16} />
           </DropdownMenuItem>
         )}
 
         {isModerator && (
-          <DropdownMenuItem className="text-gray-300 px-3 py-2 text-sm cursor-pointer">
+          <DropdownMenuItem onClick={() => { onOpen("createEvent", { server }) }} className="text-gray-300 px-3 py-2 text-sm cursor-pointer">
             Create Event
             <CalendarDays className="ml-auto" size={16} />
           </DropdownMenuItem>
         )}
 
-        <DropdownMenuItem className="text-gray-300 px-3 py-2 text-sm cursor-pointer">
+        <DropdownMenuItem onClick={() => { onOpen("appDirectory", { server }) }} className="text-gray-300 px-3 py-2 text-sm cursor-pointer">
           App Directory
           <Sticker className="ml-auto" size={16} />
         </DropdownMenuItem>
         <Separator />
-        <DropdownMenuItem className="text-gray-300 px-3 py-2 text-sm cursor-pointer">
+
+        <DropdownMenuItem onClick={showChannel} className="text-gray-300 px-3 py-2 text-sm cursor-pointer">
           Show All Channels
-          <Tv className="ml-auto" size={16} />
+          <MdCheckBoxOutlineBlank className="ml-auto" size={16} />
         </DropdownMenuItem>
-        <DropdownMenuItem className="text-gray-300 px-3 py-2 text-sm cursor-pointer">
+
+        <DropdownMenuItem onClick={() => { onOpen("notificationSettings", { server }) }} className="text-gray-300 px-3 py-2 text-sm cursor-pointer">
           Notification Settings
           <Bell className="ml-auto" size={16} />
         </DropdownMenuItem>
-        <DropdownMenuItem className="text-gray-300 px-3 py-2 text-sm cursor-pointer">
+        <DropdownMenuItem onClick={() => { onOpen("privacySettings", { server }) }} className="text-gray-300 px-3 py-2 text-sm cursor-pointer">
           Privacy Settings
           <ShieldAlert className="ml-auto" size={16} />
         </DropdownMenuItem>
         <Separator />
-        <DropdownMenuItem className="text-gray-300 px-3 py-2 text-sm cursor-pointer">
+        <DropdownMenuItem onClick={() => { onOpen("editServerProfile", { server }) }} className="text-gray-300 px-3 py-2 text-sm cursor-pointer">
           Edit Server Profile
           <Pencil className="ml-auto" size={16} />
         </DropdownMenuItem>
-        <DropdownMenuItem className="text-gray-300 px-3 py-2 text-sm cursor-pointer">
+
+        <DropdownMenuItem onClick={muteChannel} className="text-gray-300 px-3 py-2 text-sm cursor-pointer">
           Hide Muted Channels
           <MdCheckBoxOutlineBlank className="ml-auto" size={16} />
         </DropdownMenuItem>
+
         <Separator />
         {isAdmin && (
-          <DropdownMenuItem className="text-red-600 dark:text-red-500 px-3 py-2 text-sm cursor-pointer">
+          <DropdownMenuItem onClick={() => { onOpen("deleteServer", { server }) }} className="text-red-600 dark:text-red-500 px-3 py-2 text-sm cursor-pointer">
             Delete Server
             <Trash2 className="ml-auto" size={16} />
           </DropdownMenuItem>
         )}
         {!isAdmin && (
-          <DropdownMenuItem className="text-red-600 dark:text-red-500 px-3 py-2 text-sm cursor-pointer">
+          <DropdownMenuItem onClick={() => { onOpen("leaveServer", { server }) }} className="text-red-600 dark:text-red-500 px-3 py-2 text-sm cursor-pointer">
             Leave Server
             <LogOut className="ml-auto" size={16} />
           </DropdownMenuItem>
